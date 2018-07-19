@@ -51,7 +51,6 @@ def buffon_plot(ratio=2):
 
     ani = animation.FuncAnimation(fig, buffon_animation, interval=1000/60, blit=False)
     fig.canvas.set_window_title('Simulador Agulha de Buffon')
-    plt.get_current_fig_manager().window.showMaximized()
     plt.show()
 
 buffon_plot()
