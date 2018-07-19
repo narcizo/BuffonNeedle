@@ -22,8 +22,9 @@ def buffon_plot(ratio=2):
     ax1.grid(True, axis='x')
     ax1.set_title("Agulhas de Buffon")
 
-    ax2.set_ylim(0, 2 * math.pi)
-    ax2.axhline(y=math.pi, linewidth=1, color='green')
+    rpi = ratio * math.pi
+    ax2.set_ylim(0, rpi)
+    ax2.axhline(y=rpi/2, linewidth=1, color='green')
     ax2.set_xlabel('Agulhas')
     ax2.set_ylabel('Estimativa')
     ax2.grid()
@@ -43,12 +44,12 @@ def buffon_plot(ratio=2):
         plx2 = posx + (thdx + doff) * flpx
         ply1 = posy - thdy * flpy
         ply2 = posy + thdy * flpy
-        line = Line2D([plx1, plx2], [ply1, ply2], color=color, alpha=.5)
+        line = Line2D([plx1, plx2], [ply1, ply2], color=color, alpha=1/3)
         hitlist[0] += hit
         ax1.add_line(line)
-        ax2.scatter(frame, frame / hitlist[0], marker='.', linewidth=.75)
+        ax2.scatter(frame, frame / hitlist[0], marker='.', alpha=2/3, linewidth=2/3)
 
-    ani = animation.FuncAnimation(fig, buffon_animation, interval=1/60, blit=False)
+    ani = animation.FuncAnimation(fig, buffon_animation, interval=1000/60, blit=False)
     fig.canvas.set_window_title('Simulador Agulha de Buffon')
     plt.get_current_fig_manager().window.showMaximized()
     plt.show()
