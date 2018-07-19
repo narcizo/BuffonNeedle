@@ -52,7 +52,7 @@ def buffon_plot(ratio=2):
             hitlist[1] = est
         scl = 'r' if err < 0 else 'b'
         ax1.add_line(line)
-        ax1.set_xlabel("  Atual = {:.4f}\nMelhor = {:.4f}".format(est, hitlist[1]))
+        ax1.set_xlabel("  Atual = {:.8f}\nMelhor = {:.8f}".format(est, hitlist[1]))
         ax2.scatter(frame, est, marker='.', color=scl, alpha=2/3, linewidth=2/3)
 
     ani = animation.FuncAnimation(fig, buffon_animation, interval=1000/60, blit=False)
