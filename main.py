@@ -1,14 +1,56 @@
-import math, random, sys
+import math, random
+import matplotlib.animation as animation
+import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 
-def buffon_needle(r=2):
-    return random.uniform(0, r) < math.cos(random.uniform(0, math.pi / 2))
+def buffon_needle(ratio=2):
+    delta = random.uniform(0, ratio)
+    theta = random.uniform(0, math.pi / 2)
+    return (delta, theta, delta < math.cos(theta))
 
-def buffon(n=1000000, r=2):
-    return sum(map(buffon_needle, [r] * n))
+def buffon_plot(ratio=2):
+    hitlist = [1]
+    fig = plt.figure()
+    ax1 = fig.add_subplot(121)
+    ax2 = fig.add_subplot(122)
 
-print('Simulacao Agulha de Buffon')
-print('Acertos\t Estimativa de PI')
+    ax1.set_aspect(1)
+    ax1.set_xlim(0, 10)
+    ax1.set_ylim(0, 10)
+    ax1.set_xticklabels([])
+    ax1.set_yticklabels([])
+    ax1.grid(True, axis='x')
+    ax1.set_title("Agulhas de Buffon")
 
-number = 1000000
-hits = buffon(number)
-print(hits, '\t', float(number / hits))
+    ax2.set_ylim(0, 2 * math.pi)
+    ax2.axhline(y=math.pi, linewidth=1, color='green')
+    ax2.set_xlabel('Agulhas')
+    ax2.set_ylabel('Estimativa')
+    ax2.grid()
+    ax2.set_title("Estimativa de PI")
+
+    def buffon_animation(frame):
+        delta, theta, hit = buffon_needle(ratio)
+        color = 'r' if hit else 'b'
+        doff = delta / ratio
+        posx = random.randint(1, 4) * 2
+        posy = random.uniform(1, 9)
+        flpx = random.choice([-1, 1])
+        flpy = random.choice([-1, 1])
+        thdx = math.cos(theta) / ratio
+        thdy = math.sin(theta) / ratio
+        plx1 = posx + (-thdx + doff) * flpx
+        plx2 = posx + (thdx + doff) * flpx
+        ply1 = posy - thdy * flpy
+        ply2 = posy + thdy * flpy
+        line = Line2D([plx1, plx2], [ply1, ply2], color=color, alpha=.5)
+        hitlist[0] += hit
+        ax1.add_line(line)
+        ax2.scatter(frame, frame / hitlist[0], marker='.', linewidth=.75)
+
+    ani = animation.FuncAnimation(fig, buffon_animation, interval=1/60, blit=False)
+    fig.canvas.set_window_title('Simulador Agulha de Buffon')
+    plt.get_current_fig_manager().window.showMaximized()
+    plt.show()
+
+buffon_plot()
