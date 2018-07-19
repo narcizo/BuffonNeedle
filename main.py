@@ -9,7 +9,7 @@ def buffon_needle(ratio=2):
     return (delta, theta, delta < math.cos(theta))
 
 def buffon_plot(ratio=2):
-    hitlist = [1]
+    hitlist = [1, 0]
     fig = plt.figure()
     ax1 = fig.add_subplot(121)
     ax2 = fig.add_subplot(122)
@@ -46,8 +46,13 @@ def buffon_plot(ratio=2):
         ply2 = posy + thdy * flpy
         line = Line2D([plx1, plx2], [ply1, ply2], color=color, alpha=1/3)
         hitlist[0] += hit
+        est = frame / hitlist[0]
+        err = est - math.pi
+        if abs(err) < abs(hitlist[1] - math.pi):
+            hitlist[1] = est
+        scl = 'r' if err < 0 else 'b'
         ax1.add_line(line)
-        ax2.scatter(frame, frame / hitlist[0], marker='.', alpha=2/3, linewidth=2/3)
+        ax2.scatter(frame, est, marker='.', color=scl, alpha=2/3, linewidth=2/3)
 
     ani = animation.FuncAnimation(fig, buffon_animation, interval=1000/60, blit=False)
     fig.canvas.set_window_title('Simulador Agulha de Buffon')
