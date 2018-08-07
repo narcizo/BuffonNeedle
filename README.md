@@ -1,4 +1,4 @@
 # BuffonNeedle
-Buffon's Needle Problem
 
-https://www.r-bloggers.com/calculating-pi-using-buffons-needle/
+Esse algoritmo tem como objetivo estimar o valor de Pi através do método das Agulhas de Buffon
+
