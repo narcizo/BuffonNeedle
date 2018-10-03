@@ -48,6 +48,7 @@ def buffon_plot(ratio=2):
         hitlist[0] += hit
         est = frame / hitlist[0]
         err = est - math.pi
+        
         if abs(err) < abs(hitlist[1] - math.pi):
             hitlist[1] = est
         scl = 'r' if err < 0 else 'b'
