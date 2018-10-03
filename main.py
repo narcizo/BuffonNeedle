@@ -59,4 +59,5 @@ def buffon_plot(ratio=2):
     fig.canvas.set_window_title('Simulador Agulha de Buffon')
     plt.show()
 
+rightWidth = 3
 buffon_plot()
